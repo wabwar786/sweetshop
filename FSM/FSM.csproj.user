@@ -1,0 +1,15 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ReferencePath>C:\Program Files\Business Objects\Common\2.8\managed\C:\Program Files (x86)\Business Objects\Common\2.8\managed\</ReferencePath>
+    <PublishUrlHistory>\\localhost\Users\hamzaji\Desktop\Deploy\|C:\Users\hamzaji\Desktop\Deploy\|publish\</PublishUrlHistory>
+    <InstallUrlHistory>\\localhost\Users\hamzaji\Desktop\Deploy\</InstallUrlHistory>
+    <SupportUrlHistory>
+    </SupportUrlHistory>
+    <UpdateUrlHistory>
+    </UpdateUrlHistory>
+    <BootstrapperUrlHistory>
+    </BootstrapperUrlHistory>
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+</Project>

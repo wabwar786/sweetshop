@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="transfer_to" targetNamespace="http://tempuri.org/transfer_to.xsd" xmlns:mstns="http://tempuri.org/transfer_to.xsd" xmlns="http://tempuri.org/transfer_to.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="transfer_to" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="transfer_to" msprop:Generator_DataSetName="transfer_to" msprop:EnableTableAdapterManager="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="transfer_tab" msprop:Generator_UserTableName="transfer_tab" msprop:Generator_RowDeletedName="transfer_tabRowDeleted" msprop:Generator_RowChangedName="transfer_tabRowChanged" msprop:Generator_RowClassName="transfer_tabRow" msprop:Generator_RowChangingName="transfer_tabRowChanging" msprop:Generator_RowEvArgName="transfer_tabRowChangeEvent" msprop:Generator_RowEvHandlerName="transfer_tabRowChangeEventHandler" msprop:Generator_TableClassName="transfer_tabDataTable" msprop:Generator_TableVarName="tabletransfer_tab" msprop:Generator_RowDeletingName="transfer_tabRowDeleting" msprop:Generator_TablePropName="transfer_tab">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="tr_date" msprop:Generator_UserColumnName="tr_date" msprop:Generator_ColumnVarNameInTable="columntr_date" msprop:Generator_ColumnPropNameInRow="tr_date" msprop:Generator_ColumnPropNameInTable="tr_dateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="tr_time" msprop:Generator_UserColumnName="tr_time" msprop:Generator_ColumnVarNameInTable="columntr_time" msprop:Generator_ColumnPropNameInRow="tr_time" msprop:Generator_ColumnPropNameInTable="tr_timeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="dn_date" msprop:Generator_UserColumnName="dn_date" msprop:Generator_ColumnVarNameInTable="columndn_date" msprop:Generator_ColumnPropNameInRow="dn_date" msprop:Generator_ColumnPropNameInTable="dn_dateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="dn_time" msprop:Generator_UserColumnName="dn_time" msprop:Generator_ColumnVarNameInTable="columndn_time" msprop:Generator_ColumnPropNameInRow="dn_time" msprop:Generator_ColumnPropNameInTable="dn_timeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="from_b" msprop:Generator_UserColumnName="from_b" msprop:Generator_ColumnVarNameInTable="columnfrom_b" msprop:Generator_ColumnPropNameInRow="from_b" msprop:Generator_ColumnPropNameInTable="from_bColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="to_b" msprop:Generator_UserColumnName="to_b" msprop:Generator_ColumnVarNameInTable="columnto_b" msprop:Generator_ColumnPropNameInRow="to_b" msprop:Generator_ColumnPropNameInTable="to_bColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="item" msprop:Generator_UserColumnName="item" msprop:Generator_ColumnVarNameInTable="columnitem" msprop:Generator_ColumnPropNameInRow="item" msprop:Generator_ColumnPropNameInTable="itemColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="demand" msprop:Generator_UserColumnName="demand" msprop:Generator_ColumnVarNameInTable="columndemand" msprop:Generator_ColumnPropNameInRow="demand" msprop:Generator_ColumnPropNameInTable="demandColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="transfer" msprop:Generator_UserColumnName="transfer" msprop:Generator_ColumnVarNameInTable="columntransfer" msprop:Generator_ColumnPropNameInRow="transfer" msprop:Generator_ColumnPropNameInTable="transferColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="discribtion" msprop:Generator_UserColumnName="discribtion" msprop:Generator_ColumnVarNameInTable="columndiscribtion" msprop:Generator_ColumnPropNameInRow="discribtion" msprop:Generator_ColumnPropNameInTable="discribtionColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="demandid" msprop:Generator_UserColumnName="demandid" msprop:Generator_ColumnVarNameInTable="columndemandid" msprop:Generator_ColumnPropNameInRow="demandid" msprop:Generator_ColumnPropNameInTable="demandidColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="discribtion2" msprop:Generator_UserColumnName="discribtion2" msprop:Generator_ColumnPropNameInRow="discribtion2" msprop:Generator_ColumnVarNameInTable="columndiscribtion2" msprop:Generator_ColumnPropNameInTable="discribtion2Column" type="xs:string" minOccurs="0" />
+              <xs:element name="re" msprop:Generator_UserColumnName="re" msprop:Generator_ColumnVarNameInTable="columnre" msprop:Generator_ColumnPropNameInRow="re" msprop:Generator_ColumnPropNameInTable="reColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="re_date" msprop:Generator_UserColumnName="re_date" msprop:Generator_ColumnVarNameInTable="columnre_date" msprop:Generator_ColumnPropNameInRow="re_date" msprop:Generator_ColumnPropNameInTable="re_dateColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="re_time" msprop:Generator_UserColumnName="re_time" msprop:Generator_ColumnVarNameInTable="columnre_time" msprop:Generator_ColumnPropNameInRow="re_time" msprop:Generator_ColumnPropNameInTable="re_timeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="status" msprop:Generator_UserColumnName="status" msprop:Generator_ColumnPropNameInRow="status" msprop:Generator_ColumnVarNameInTable="columnstatus" msprop:Generator_ColumnPropNameInTable="statusColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="dalayed_d" msprop:Generator_UserColumnName="dalayed_d" msprop:Generator_ColumnPropNameInRow="dalayed_d" msprop:Generator_ColumnVarNameInTable="columndalayed_d" msprop:Generator_ColumnPropNameInTable="dalayed_dColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="dalayed_t" msprop:Generator_UserColumnName="dalayed_t" msprop:Generator_ColumnPropNameInRow="dalayed_t" msprop:Generator_ColumnVarNameInTable="columndalayed_t" msprop:Generator_ColumnPropNameInTable="dalayed_tColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
