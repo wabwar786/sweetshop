@@ -280,6 +280,348 @@ namespace FSM.Forms
         {
             int value = e.ColumnIndex;
         }
+
+        private void trial_for_balancesheet()
+        {
+            try
+            {
+                _checkConnection();
+
+                #region Calculating Balance Sheet
+
+                bool apOpeningExist = false, inventoryOpeningExist = false, apExist = false, inventoryExist = false;
+                DataSet _mainSubTypeHeads = MySqlHelpers.ExecuteDataSet(connection, CommandType.Text, "select DISTINCT account_type,account_subtype from account_signup");
+                DataSet _trialBalance = MySqlHelpers.ExecuteDataSet(connection, CommandType.Text, "select * from albert_trial_balance where client_code=0");
+                Double _vatPayableObCR = 0, _vatPayableObDR = 0, _vatPayableActCR = 0, _vatPayableActDR = 0, _vatPayableCbCR = 0, _vatPayableCbDR = 0;
+                for (int i = 0; i < _mainSubTypeHeads.Tables[0].Rows.Count; i++)
+                {
+
+                    #region Closings
+                    List<AccountHead> openingAccounts = new List<AccountHead>();
+                    string accountSubType = _mainSubTypeHeads.Tables[0].Rows[i]["account_subtype"].ToString();
+                    if (accountSubType != "Sales" && accountSubType != "Expense")//no openings
+                    {
+                        //all accounts again accountSubtype
+                        openingAccounts = AccountsHelper.getAllHeadsSumCRDRAgainstAccountSubTypeTillDate(connection, accountSubType, dateTimePicker2.Value.ToString("yyyy-MM-dd"));
+                        foreach (var item in openingAccounts)
+                        {
+                            _trialBalance.Tables[0].Rows.Add();
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_type"] = accountSubType;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_name"] = item.account;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_cr"] = 0;
+                            if (accountSubType.ToLower() == "current assets" || accountSubType.ToLower() == "non current assets" || accountSubType.ToLower() == "fixed assets" || accountSubType.ToLower() == "expense")
+                            {//Debit Heads
+                                if (item.account == "A/R" || item.account == "A/P" || item.account == "Cash" || item.account == "Bank")
+                                {
+                                    if (item.sumDebitGross - item.sumCreditGross >= 0)
+                                    {
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = item.sumDebitGross - item.sumCreditGross;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = item.sumDebitGross - item.sumCreditGross;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                                    }
+                                    else
+                                    {
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = -1 * (item.sumDebitGross - item.sumCreditGross);
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = -1 * (item.sumDebitGross - item.sumCreditGross);
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                                    }
+
+                                }
+                                else
+                                {
+                                    double _inventoryInvDeb = 0, _inventoryInvVatPayable = 0;
+                                    if (item.account == "Inventories")
+                                    {
+                                        inventoryOpeningExist = true;
+                                        List<AccountHead> _apList = AccountsHelper.getAPHeadFromInventoryTillDate(connection, dateTimePicker2.Value.ToString("yyyy-MM-dd"));
+                                        _inventoryInvDeb = _inventoryInvDeb + _apList.FirstOrDefault().sumCredit;
+                                        _inventoryInvVatPayable = _inventoryInvVatPayable + _apList.FirstOrDefault().sumCreditGross - _apList.FirstOrDefault().sumCredit;
+                                        if (item.sumDebit + _inventoryInvDeb - item.sumCredit >= 0)
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = item.sumDebit + _inventoryInvDeb - item.sumCredit;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = item.sumDebit + _inventoryInvDeb - item.sumCredit;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                                        }
+                                        else
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = -1 * (item.sumDebit + _inventoryInvDeb - item.sumCredit);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = -1 * (item.sumDebit + _inventoryInvDeb - item.sumCredit);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                                        }
+                                        _vatPayableObDR = Math.Round(_vatPayableObDR + _inventoryInvVatPayable + item.sumDebitGross - item.sumDebit, 2);
+                                        _vatPayableObCR = Math.Round(_vatPayableObCR + item.sumCreditGross - item.sumCredit, 2);
+                                    }
+                                    else
+                                    {
+                                        if (item.sumDebit - item.sumCredit >= 0)
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = item.sumDebit - item.sumCredit;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = item.sumDebit - item.sumCredit;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                                        }
+                                        else
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = -1 * (item.sumDebit - item.sumCredit);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = -1 * (item.sumDebit - item.sumCredit);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                                        }
+                                    }
+                                    _vatPayableObDR = Math.Round(_vatPayableObDR + item.sumDebitGross - item.sumDebit, 2);
+                                    _vatPayableObCR = Math.Round(_vatPayableObCR + item.sumCreditGross - item.sumCredit, 2);
+                                }
+
+                            }
+                            else
+                            {//Credit Heads
+                                if (item.account == "A/R" || item.account == "A/P" || item.account == "Cash" || item.account == "Bank")
+                                {
+                                    double _inventoryAP = 0;
+                                    if (item.account == "A/P")
+                                    {
+                                        apOpeningExist = true;
+                                        List<AccountHead> _apList = AccountsHelper.getAPHeadFromInventoryTillDate(connection, dateTimePicker2.Value.ToString("yyyy-MM-dd"));
+                                        _inventoryAP = _inventoryAP + _apList.FirstOrDefault().sumCreditGross;
+                                        if (item.sumCreditGross + _inventoryAP - item.sumDebit >= 0)
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = item.sumCreditGross + _inventoryAP - item.sumDebitGross;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = item.sumCreditGross + _inventoryAP - item.sumDebitGross;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                                        }
+                                        else
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = -1 * (item.sumCreditGross + _inventoryAP - item.sumDebitGross);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = -1 * (item.sumCreditGross + _inventoryAP - item.sumDebitGross);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (item.sumCreditGross - item.sumDebit >= 0)
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = item.sumCreditGross - item.sumDebitGross;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = item.sumCreditGross - item.sumDebitGross;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                                        }
+                                        else
+                                        {
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = -1 * (item.sumCreditGross - item.sumDebitGross);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = -1 * (item.sumCreditGross - item.sumDebitGross);
+                                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                                        }
+                                    }
+
+
+
+                                }
+                                else
+                                {
+
+                                    if (item.sumCredit - item.sumDebit >= 0)
+                                    {
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = item.sumCredit - item.sumDebit;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = item.sumCredit - item.sumDebit;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                                    }
+                                    else
+                                    {
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = -1 * (item.sumCredit - item.sumDebit);
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = -1 * (item.sumCredit - item.sumDebit);
+                                        _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                                    }
+                                    _vatPayableObDR = Math.Round(_vatPayableObDR + item.sumDebitGross - item.sumDebit, 2);
+                                    _vatPayableObCR = Math.Round(_vatPayableObCR + item.sumCreditGross - item.sumCredit, 2);
+                                }
+                            }
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["month"] = DateTime.Today.ToString("MM");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["year"] = DateTime.Today.ToString("yyyy");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["client_code"] = mainfrm.client_code;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["date"] = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["time"] = string.Format("{0:hh:mm:ss tt}", DateTime.UtcNow);
+                        }
+                    }
+                    else
+                    {
+                        openingAccounts = AccountsHelper.getAllHeadsSumCRDRAgainstAccountSubTypeTillDate(connection, accountSubType, dateTimePicker2.Value.ToString("yyyy-MM-dd"));
+                        foreach (var item in openingAccounts)
+                        {
+                            _trialBalance.Tables[0].Rows.Add();
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_type"] = accountSubType;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_name"] = item.account;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["month"] = DateTime.Today.ToString("MM");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["year"] = DateTime.Today.ToString("yyyy");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["client_code"] = mainfrm.client_code;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["date"] = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["time"] = string.Format("{0:hh:mm:ss tt}", DateTime.UtcNow);
+                            _vatPayableObDR = Math.Round(_vatPayableObDR + item.sumDebitGross - item.sumDebit, 2);
+                            _vatPayableObCR = Math.Round(_vatPayableObCR + item.sumCreditGross - item.sumCredit, 2);
+                        }
+
+                    }
+
+                    #region Check if Opening in Inventory but not in Accounts for A/P and Inventories
+
+                    List<AccountHead> _apListNewOp = AccountsHelper.getAPHeadFromInventoryTillDate(connection, dateTimePicker1.Value.ToString("yyyy-MM-dd"));
+                    if (_apListNewOp.Count > 0)
+                    {
+                        if (!inventoryOpeningExist && accountSubType == "Current Assets")
+                        {
+                            #region Inventory Entry
+                            inventoryOpeningExist = true;
+                            double _inventoryInvDeb = _apListNewOp.FirstOrDefault().sumCredit;
+                            double _inventoryInvVatPayable = _apListNewOp.FirstOrDefault().sumCreditGross - _apListNewOp.FirstOrDefault().sumCredit;
+                            _trialBalance.Tables[0].Rows.Add();
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_type"] = "Current Assets";
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_name"] = "Inventories";
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = _inventoryInvDeb;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = _inventoryInvDeb;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["month"] = DateTime.Today.ToString("MM");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["year"] = DateTime.Today.ToString("yyyy");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["client_code"] = mainfrm.client_code;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["date"] = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["time"] = string.Format("{0:hh:mm:ss tt}", DateTime.UtcNow);
+                            _vatPayableObDR = Math.Round(_vatPayableObDR + _inventoryInvVatPayable, 2);
+
+                            #endregion
+                        }
+                        if (!apOpeningExist && accountSubType == "Current Liability")
+                        {
+                            #region AP Entry
+                            apOpeningExist = true;
+                            double _inventoryAP = _apListNewOp.FirstOrDefault().sumCreditGross;
+                            _trialBalance.Tables[0].Rows.Add();
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_type"] = "Current Liability";
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["account_name"] = "A/P";
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["act_cr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_cr"] = _inventoryAP;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["ob_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_cr"] = _inventoryAP;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["cb_dr"] = 0;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["month"] = DateTime.Today.ToString("MM");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["year"] = DateTime.Today.ToString("yyyy");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["client_code"] = mainfrm.client_code;
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["date"] = DateTime.UtcNow.ToString("yyyy-MM-dd");
+                            _trialBalance.Tables[0].Rows[_trialBalance.Tables[0].Rows.Count - 1]["time"] = string.Format("{0:hh:mm:ss tt}", DateTime.UtcNow);
+
+                            #endregion
+                        }
+                    }
+
+                    #endregion
+
+                    #endregion
+                }
+
+                #endregion
+
+
+                #region Building queries and Db Entries
+
+                string query = "", account_type = "0", account_name = "0", ob_dr = "0", ob_cr = "0", act_dr = "0", act_cr = "0", cb_dr = "0", cb_cr = "0";
+                for (int i = 0; i < _trialBalance.Tables[0].Rows.Count; i++)
+                {
+
+
+                    account_type = _trialBalance.Tables[0].Rows[i]["account_type"].ToString();
+                    account_name = _trialBalance.Tables[0].Rows[i]["account_name"].ToString();
+                    ob_dr = _trialBalance.Tables[0].Rows[i]["ob_dr"].ToString();
+                    ob_cr = _trialBalance.Tables[0].Rows[i]["ob_cr"].ToString();
+                    act_dr = _trialBalance.Tables[0].Rows[i]["act_dr"].ToString();
+                    act_cr = _trialBalance.Tables[0].Rows[i]["act_cr"].ToString();
+                    cb_dr = _trialBalance.Tables[0].Rows[i]["cb_dr"].ToString();
+                    cb_cr = _trialBalance.Tables[0].Rows[i]["cb_cr"].ToString();
+
+                    query = query + "insert into albert_trial_balance(account_type,account_name,ob_dr,ob_cr,act_dr,act_cr,cb_dr,cb_cr,month,year,client_code,date,time,pcname) values('" + account_type + "','" + account_name + "','" + ob_dr + "','" + ob_cr + "','" + act_dr + "','" + act_cr + "','" + cb_dr + "','" + cb_cr + "','" + DateTime.Today.ToString("MM") + "','" + DateTime.Today.ToString("yyyy") + "','" + mainfrm.client_code + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "','" + DateTime.Now.ToString("hh:mm:ss") + "','" + pcName + "');";
+
+                }
+
+                //Calculating Commulative Profit
+                account_type = "Retained Earnings";
+                account_name = "Accomulated Profit";
+                ob_cr = "0"; ob_dr = "0"; act_dr = "0"; act_cr = "0"; cb_dr = "0"; cb_cr = "0";
+                double acc_profit = AccountsHelper.calculateAccomolativeProfitTillDate(connection, dateTimePicker2.Value.ToString("yyyy-MM-dd"));
+                if (acc_profit >= 0)
+                {
+                    ob_cr = Convert.ToString(acc_profit);
+                }
+                else
+                {
+                    ob_dr = Convert.ToString(-1 * acc_profit);
+                }
+                if (double.Parse(ob_cr) - double.Parse(ob_dr) >= 0)
+                    cb_cr = Convert.ToString(double.Parse(ob_cr) - double.Parse(ob_dr));
+                else
+                    cb_dr = Convert.ToString(-1 * (double.Parse(ob_cr) - double.Parse(ob_dr)));
+
+                query = query + "insert into albert_trial_balance(account_type,account_name,ob_dr,ob_cr,act_dr,act_cr,cb_dr,cb_cr,month,year,client_code,date,time,pcname) values('" + account_type + "','" + account_name + "','" + ob_dr + "','" + ob_cr + "','" + act_dr + "','" + act_cr + "','" + cb_dr + "','" + cb_cr + "','" + DateTime.Today.ToString("MM") + "','" + DateTime.Today.ToString("yyyy") + "','" + mainfrm.client_code + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "','" + DateTime.Now.ToString("hh:mm:ss") + "','" + pcName + "');";
+
+                //Calculating/ Entry Vat Payable
+                account_type = "Current Liability";
+                account_name = "Vat Payable";
+                //vat is CR account head
+
+                if (_vatPayableObCR + _vatPayableActCR - _vatPayableObDR - _vatPayableActDR >= 0)
+                {
+                    _vatPayableCbCR = _vatPayableObCR + _vatPayableActCR - _vatPayableObDR - _vatPayableActDR;
+                    _vatPayableCbDR = 0;
+                }
+                else
+                {
+                    _vatPayableCbDR = (-1 * (_vatPayableObCR + _vatPayableActCR - _vatPayableObDR - _vatPayableActDR));
+                    _vatPayableCbCR = 0;
+                }
+                if (_vatPayableObCR - _vatPayableObDR >= 0)
+                {
+                    _vatPayableObCR = _vatPayableObCR - _vatPayableObDR;
+                    _vatPayableObDR = 0;
+                }
+                else
+                {
+                    _vatPayableObDR = (-1 * (_vatPayableObCR - _vatPayableObDR));
+                    _vatPayableObCR = 0;
+                }
+                query = query + "insert into albert_trial_balance(account_type,account_name,ob_dr,ob_cr,act_dr,act_cr,cb_dr,cb_cr,month,year,client_code,date,time,pcname) values('" + account_type + "','" + account_name + "','" + _vatPayableObDR.ToString("0.##") + "','" + _vatPayableObCR.ToString("0.##") + "','" + _vatPayableActDR.ToString("0.##") + "','" + _vatPayableActCR.ToString("0.##") + "','" + _vatPayableCbDR.ToString("0.##") + "','" + _vatPayableCbCR.ToString("0.##") + "','" + DateTime.Today.ToString("MM") + "','" + DateTime.Today.ToString("yyyy") + "','" + mainfrm.client_code + "','" + DateTime.Today.ToString("yyyy-MM-dd") + "','" + DateTime.Now.ToString("hh:mm:ss") + "','" + pcName + "');";
+
+
+                //Db Entries
+                MySqlHelpers.ExecuteNonQuery(connection, CommandType.Text, "delete from albert_trial_balance where ((client_code='" + mainfrm.client_code + "')and(pcname='" + pcName + "'))");
+                MySqlHelpers.ExecuteNonQuery(connection, CommandType.Text, query);
+
+
+
+                #endregion
+
+
+              
+            }
+            catch (Exception oo)
+            {
+                MessageBox.Show(oo.Message);
+            }
+        }
     }
 
 }
