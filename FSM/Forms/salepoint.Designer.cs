@@ -62,6 +62,7 @@
             this.salesItems_gridview.AllowUserToAddRows = false;
             this.salesItems_gridview.AllowUserToDeleteRows = false;
             this.salesItems_gridview.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.salesItems_gridview.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.salesItems_gridview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Barcode_grid,
             this.ProductName_gridview,
@@ -75,7 +76,7 @@
             this.salesItems_gridview.ReadOnly = true;
             this.salesItems_gridview.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.salesItems_gridview.RowHeadersVisible = false;
-            this.salesItems_gridview.Size = new System.Drawing.Size(894, 497);
+            this.salesItems_gridview.Size = new System.Drawing.Size(898, 497);
             this.salesItems_gridview.TabIndex = 2;
             // 
             // Barcode_grid
@@ -179,7 +180,7 @@
             this.invoice_notextBox.Enabled = false;
             this.invoice_notextBox.Location = new System.Drawing.Point(127, 38);
             this.invoice_notextBox.Name = "invoice_notextBox";
-            this.invoice_notextBox.Size = new System.Drawing.Size(195, 27);
+            this.invoice_notextBox.Size = new System.Drawing.Size(271, 27);
             this.invoice_notextBox.TabIndex = 6;
             // 
             // salepoint
@@ -187,7 +188,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1280, 950);
+            this.ClientSize = new System.Drawing.Size(1280, 749);
             this.Controls.Add(this.invoice_notextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Items_listView);
