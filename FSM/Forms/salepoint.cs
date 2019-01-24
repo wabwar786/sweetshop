@@ -184,6 +184,7 @@ namespace FSM.Forms
             System.Net.IPAddress ip = System.Net.Dns.GetHostAddresses(System.Net.Dns.GetHostName()).Where(address =>
             address.AddressFamily == AddressFamily.InterNetwork).First();
             return ip;
+            //getip
 
         }
 
