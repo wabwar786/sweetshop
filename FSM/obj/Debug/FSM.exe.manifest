@@ -57,14 +57,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FSM.exe" size="7986688">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FSM.exe" size="7987200">
       <assemblyIdentity name="FSM" version="0.5.2.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>XoO4tY4RcYVSxJKJ9KBHtj+Us+I=</dsig:DigestValue>
+        <dsig:DigestValue>dHz5f+RLCjdIrxH3jjsye/ZHHiQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
