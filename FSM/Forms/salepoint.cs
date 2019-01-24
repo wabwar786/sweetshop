@@ -23,6 +23,8 @@ namespace FSM.Forms
             string connectorstr = ConfigurationSettings.AppSettings["ConnectionString"];
             conn = new MySqlConnection(connectorstr);
             connection_check();
+            //changed
+            MessageBox.Show("Test");
         }
 
         #region Check Conenction Method
