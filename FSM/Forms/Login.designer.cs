@@ -72,6 +72,7 @@
             this.texpwd.PasswordChar = '*';
             this.texpwd.Size = new System.Drawing.Size(200, 23);
             this.texpwd.TabIndex = 2;
+            this.texpwd.Text = "admin123";
             this.texpwd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.texpwd_KeyDown);
             // 
             // tex_user
@@ -81,6 +82,7 @@
             this.tex_user.Name = "tex_user";
             this.tex_user.Size = new System.Drawing.Size(200, 23);
             this.tex_user.TabIndex = 1;
+            this.tex_user.Text = "main admin";
             // 
             // button1
             // 

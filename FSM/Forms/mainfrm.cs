@@ -173,5 +173,29 @@ namespace FSM
             salepoint sp = new salepoint();
             sp.ShowDialog();
         }
+
+        private void customersRegistrationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            customer_details_Form2 sdf = new customer_details_Form2();
+            sdf.ShowDialog();
+        }
+
+        private void salesManRegistrationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            sales_man_reg smr = new sales_man_reg();
+            smr.ShowDialog();
+        }
+
+        private void accountCreationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            account ac = new account();
+            ac.ShowDialog();
+        }
+
+        private void dealsCreationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            deals_creation dc = new deals_creation();
+            dc.ShowDialog();
+        }
     }
 }
