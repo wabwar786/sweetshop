@@ -10,21 +10,18 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.IO;
 using System.Drawing.Imaging;
-using System.Net.Sockets;
 
-namespace FSM
+namespace Albert_Accounting
 {
     public partial class customer_details_Form2 : Form
     {
         MySqlConnection conn = null;
         string base64String = "";
-
         public customer_details_Form2()
         {
             InitializeComponent();
-            string connectorstr = ConfigurationSettings.AppSettings["ConnectionString"];
-            conn = new MySqlConnection(connectorstr);
-            _checkConnection();
+            //string connectorstr = ConfigurationSettings.AppSettings["ConnectionString"];
+            //conn = new MySqlConnection(GlobalUtil.connectionString);
         }
 
         private void _checkConnection()
@@ -77,29 +74,29 @@ namespace FSM
 
 
             _checkConnection();
-            //cb_contry.Items.Clear();
-            //MySqlCommand _getCountrycit = new MySqlCommand("select DISTINCT(Country) from link_table", conn);
-            //_getCountrycit.ExecuteNonQuery();
-            //MySqlDataReader _get = _getCountrycit.ExecuteReader();
-            //while (_get.Read())
-            //{
-            //    cb_contry.Items.Add(_get[0].ToString());
+            cb_contry.Items.Clear();
+            MySqlCommand _getCountrycit = new MySqlCommand("select DISTINCT(Country) from link_table", conn);
+            _getCountrycit.ExecuteNonQuery();
+            MySqlDataReader _get = _getCountrycit.ExecuteReader();
+            while (_get.Read())
+            {
+                cb_contry.Items.Add(_get[0].ToString());
 
 
-            //}
-            //_get.Dispose();
+            }
+            _get.Dispose();
 
-            //cb_city.Items.Clear();
-            //MySqlCommand _getCountrycit1 = new MySqlCommand("select DISTINCT(City) from link_table", conn);
-            //_getCountrycit1.ExecuteNonQuery();
-            //MySqlDataReader _get1 = _getCountrycit1.ExecuteReader();
-            //while (_get1.Read())
-            //{
+            cb_city.Items.Clear();
+            MySqlCommand _getCountrycit1 = new MySqlCommand("select DISTINCT(City) from link_table", conn);
+            _getCountrycit1.ExecuteNonQuery();
+            MySqlDataReader _get1 = _getCountrycit1.ExecuteReader();
+            while (_get1.Read())
+            {
 
-            //    cb_city.Items.Add(_get1[0].ToString());
+                cb_city.Items.Add(_get1[0].ToString());
 
-            //}
-            //_get1.Dispose();
+            }
+            _get1.Dispose();
         }
 
         private void btn_delete_Click(object sender, EventArgs e)
@@ -207,53 +204,6 @@ namespace FSM
 
 
         }
-
-        private string uniqueID()
-        {
-            DateTime date = DateTime.Now;
-
-            string uniqueID = String.Format(
-              "{0:0000}{1:00}{2:00}{3:00}{4:00}POS",
-              date.Year, date.Month, date.Day,
-              date.Hour, date.Minute
-              );
-
-            return uniqueID;
-
-        }
-
-        private string addingDateTimeStamp()
-        {
-
-            DateTime now = DateTime.Now;
-            string date = now.GetDateTimeFormats('d')[0];
-            string time = now.GetDateTimeFormats('t')[0];
-
-            // MessageBox.Show(date.ToString());
-            return date.ToString();
-
-        }
-
-        public static System.Net.IPAddress GetIPAddress()      //get the ip adress of system
-        {
-            System.Net.IPAddress ip = System.Net.Dns.GetHostAddresses(System.Net.Dns.GetHostName()).Where(address =>
-            address.AddressFamily == AddressFamily.InterNetwork).First();
-            return ip;
-
-        }
-
-        private string addingTimeNow()
-        {
-
-            DateTime now = DateTime.Now;
-            string date = now.GetDateTimeFormats('d')[0];
-            string time = now.GetDateTimeFormats('t')[0];
-
-            // MessageBox.Show(time.ToString());
-            return time.ToString();
-
-        }
-
         private void Sve()
         {
             try
@@ -279,8 +229,7 @@ namespace FSM
             {
                 _checkConnection();
                 // txt_id.Text = tex_phone.Text + abcz;
-                string system_name = System.Environment.MachineName;
-                MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_customers`( `fname`, `lname`, `comp_name`, `email`, `phno`, `mobno`, `contry`, `city`, `street`, `house`, `image`, `branch`,pc_name,ip,date,time) VALUES ('" + txt_fname.Text + "','" + txt_lname.Text + "','" + txt_comp_name.Text + "','" + tex_email.Text + "','" + txt_ph_no.Text + "','" + tex_mob.Text + "','" + cb_contry.Text + "','" + cb_city.Text + "','" + txt_street_no.Text + "','" + txt_house_no.Text + "','" + base64String + "','" + branchescombobox.Text + "','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','"+addingTimeNow()+"')", conn);
+                MySqlCommand itd = new MySqlCommand("insert into customer_details(fname,lname,comp_name,email,phno,mobno,contry,city,street,house,image,client_code,user_name,user_id	,pc_name,ip,date,time) Values()", conn);
                 itd.ExecuteNonQuery();
                 itd.Dispose();
                 MessageBox.Show("Record is successfully Added!", "Record Added Successful!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
@@ -332,14 +281,13 @@ namespace FSM
                 if (MessageBox.Show("Are You Sure To Update this record?", "Update Now?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
 
-                    MySqlCommand up = new MySqlCommand("Update fsm_customers  set fname	='" + txt_fname.Text + "',lname='" + txt_lname.Text + "',comp_name='" + txt_comp_name.Text + "' ,email='" + tex_email.Text + "', phno='" + txt_ph_no.Text + "',mobno='" + tex_mob.Text + "',contry='" + cb_contry.Text + "',city='" + cb_city.Text + "',street='" + txt_street_no.Text + "',house='" + txt_house_no.Text + "',image='" + base64String + "' where ID =" + txt_id.Text + "", conn);
+                    MySqlCommand up = new MySqlCommand("Update customer_details  set fname	='" + txt_fname.Text + "',lname='" + txt_lname.Text + "',comp_name='" + txt_comp_name.Text + "' ,email='" + tex_email.Text + "', phno='" + txt_ph_no.Text + "',mobno='" + tex_mob.Text + "',contry='" + cb_contry.Text + "',city='" + cb_city.Text + "',street='" + txt_street_no.Text + "',house='" + txt_house_no.Text + "',image='" + base64String + "' where ID =" + txt_id.Text + "", conn);
                     up.ExecuteNonQuery();
                     up.Dispose();
                     MessageBox.Show("The selected record has been Updated Successfuly!");
 
                 }
-                conn.Close();
-            }
+                conn.Close(); }
             catch (Exception ex)
             {
                 MessageBox.Show("The selected record is Not Update,Please try again" + ex.Message, "Üpdate Error", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
@@ -369,7 +317,7 @@ namespace FSM
             listView1.View = View.Details;
             listView1.Items.Clear();
 
-            MySqlDataAdapter rrx = new MySqlDataAdapter("select ID,fname,email,phno,comp_name,contry from fsm_customers where(branch='" + Login.branch + "')", conn);
+            MySqlDataAdapter rrx = new MySqlDataAdapter("select ID,fname,email,phno,comp_name,contry from customer_details where()", conn);
             DataTable dtx = new DataTable();
             rrx.Fill(dtx);
             for (int i = 0; i < dtx.Rows.Count; i++)
@@ -406,7 +354,7 @@ namespace FSM
                 txt_id.Text = listView1.SelectedItems[0].SubItems[0].Text;
                 btn_save.Text = "Update";
                 pictureBox2.Image = null;
-                MySqlCommand sel = new MySqlCommand("select fname,lname,email,phno,comp_name,mobno,contry,city,street,house,image,branch from fsm_customers where ID='" + txt_id.Text + "'", conn);
+                MySqlCommand sel = new MySqlCommand("select fname,lname,email,phno,comp_name,mobno,contry,city,street,house,image from customer_details where ID='" + txt_id.Text + "'", conn);
                 sel.ExecuteNonQuery();
                 MySqlDataReader drdr = sel.ExecuteReader();
                 while (drdr.Read())
@@ -421,8 +369,7 @@ namespace FSM
                     cb_city.Text = drdr[7].ToString();
                     txt_street_no.Text = drdr[8].ToString();
                     txt_house_no.Text = drdr[9].ToString();
-                    imageC = drdr["image"].ToString();
-                    branchescombobox.Text = drdr["branch"].ToString();
+                    imageC = drdr[10].ToString();
 
                 }
                 drdr.Dispose();
@@ -436,7 +383,7 @@ namespace FSM
             catch (Exception ex)
             {
 
-                //MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
             }
             try
             {
@@ -453,7 +400,6 @@ namespace FSM
 
                 // MessageBox.Show(ex.Message);
             }
-
 
         }
 
