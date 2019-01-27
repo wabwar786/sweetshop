@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Net;
+using FSM.Forms;
 
 namespace FSM
 {
@@ -126,6 +127,8 @@ namespace FSM
             {
               MessageBox.Show("Invaild Username and Password,Please try again","Login error",MessageBoxButtons.OKCancel,MessageBoxIcon.Error);
             }
+
+           loadingCurrentAccount();
         }
        
 
@@ -142,8 +145,8 @@ namespace FSM
             {
                 hostName = Dns.GetHostName();
                 myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
-                conn.Open();
-
+               // conn.Open();
+              
             }
             catch (Exception ex)
             {
@@ -151,6 +154,19 @@ namespace FSM
                 
             }
            
+        }
+
+        private void loadingCurrentAccount()
+        {
+            MySqlCommand innzX21122 = new MySqlCommand("select ID from fsm_account_no where branch='" + Login.branch + "'", conn);
+            innzX21122.ExecuteNonQuery();
+            MySqlDataReader rrr1122 = innzX21122.ExecuteReader();
+            while (rrr1122.Read())
+            {
+               account.account_no = rrr1122["ID"].ToString();
+            }
+            rrr1122.Dispose();
+            innzX21122.Dispose();
         }
 
         private void texpwd_KeyDown(object sender, KeyEventArgs e)

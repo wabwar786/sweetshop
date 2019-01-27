@@ -33,6 +33,14 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.homeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inventryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.pOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.customersRegistrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.salesManRegistrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.signUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -50,18 +58,20 @@
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pOSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.accountCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.dealsCreationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,6 +82,12 @@
             this.inventryToolStripMenuItem,
             this.toolStripSeparator5,
             this.pOSToolStripMenuItem,
+            this.toolStripSeparator6,
+            this.toolStripMenuItem2,
+            this.toolStripSeparator7,
+            this.customersRegistrationToolStripMenuItem,
+            this.toolStripSeparator8,
+            this.salesManRegistrationToolStripMenuItem,
             this.toolStripSeparator2,
             this.signUpToolStripMenuItem,
             this.toolStripSeparator3,
@@ -79,29 +95,87 @@
             this.toolStripSeparator1,
             this.barcodeToolStripMenuItem,
             this.toolStripSeparator4,
-            this.goodsReceivingToolStripMenuItem});
+            this.goodsReceivingToolStripMenuItem,
+            this.toolStripSeparator9,
+            this.accountCreationToolStripMenuItem,
+            this.toolStripSeparator10,
+            this.dealsCreationToolStripMenuItem});
             this.homeToolStripMenuItem.Name = "homeToolStripMenuItem";
             this.homeToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
-            this.homeToolStripMenuItem.Text = "Home";
+            this.homeToolStripMenuItem.Text = "&Home";
             // 
             // inventryToolStripMenuItem
             // 
             this.inventryToolStripMenuItem.Name = "inventryToolStripMenuItem";
-            this.inventryToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.inventryToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.inventryToolStripMenuItem.Text = "&Inventory Control";
             this.inventryToolStripMenuItem.Click += new System.EventHandler(this.inventryToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.toolStripSeparator5.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(197, 6);
+            // 
+            // pOSToolStripMenuItem
+            // 
+            this.pOSToolStripMenuItem.Name = "pOSToolStripMenuItem";
+            this.pOSToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.pOSToolStripMenuItem.Text = "&POS";
+            this.pOSToolStripMenuItem.Click += new System.EventHandler(this.pOSToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(197, 6);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(200, 22);
+            this.toolStripMenuItem2.Text = "&Goods Receiving";
+            this.toolStripMenuItem2.Visible = false;
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.toolStripSeparator7.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(197, 6);
+            // 
+            // customersRegistrationToolStripMenuItem
+            // 
+            this.customersRegistrationToolStripMenuItem.Name = "customersRegistrationToolStripMenuItem";
+            this.customersRegistrationToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.customersRegistrationToolStripMenuItem.Text = "&Customers Registration";
+            this.customersRegistrationToolStripMenuItem.Click += new System.EventHandler(this.customersRegistrationToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.toolStripSeparator8.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(197, 6);
+            // 
+            // salesManRegistrationToolStripMenuItem
+            // 
+            this.salesManRegistrationToolStripMenuItem.Name = "salesManRegistrationToolStripMenuItem";
+            this.salesManRegistrationToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.salesManRegistrationToolStripMenuItem.Text = "&Sales Man Registration";
+            this.salesManRegistrationToolStripMenuItem.Click += new System.EventHandler(this.salesManRegistrationToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.BackColor = System.Drawing.Color.WhiteSmoke;
             this.toolStripSeparator2.ForeColor = System.Drawing.SystemColors.Control;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(197, 6);
             // 
             // signUpToolStripMenuItem
             // 
             this.signUpToolStripMenuItem.Name = "signUpToolStripMenuItem";
-            this.signUpToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.signUpToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.signUpToolStripMenuItem.Text = "&Create Users";
             this.signUpToolStripMenuItem.Visible = false;
             this.signUpToolStripMenuItem.Click += new System.EventHandler(this.signUpToolStripMenuItem_Click);
@@ -109,12 +183,12 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(197, 6);
             // 
             // securityToolStripMenuItem
             // 
             this.securityToolStripMenuItem.Name = "securityToolStripMenuItem";
-            this.securityToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.securityToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.securityToolStripMenuItem.Text = "&Users Security";
             this.securityToolStripMenuItem.Visible = false;
             this.securityToolStripMenuItem.Click += new System.EventHandler(this.securityToolStripMenuItem_Click);
@@ -122,25 +196,25 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
             // 
             // barcodeToolStripMenuItem
             // 
             this.barcodeToolStripMenuItem.Name = "barcodeToolStripMenuItem";
-            this.barcodeToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.barcodeToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.barcodeToolStripMenuItem.Text = "&Generate Barcode";
             this.barcodeToolStripMenuItem.Click += new System.EventHandler(this.barcodeToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(197, 6);
             this.toolStripSeparator4.Visible = false;
             // 
             // goodsReceivingToolStripMenuItem
             // 
             this.goodsReceivingToolStripMenuItem.Name = "goodsReceivingToolStripMenuItem";
-            this.goodsReceivingToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.goodsReceivingToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.goodsReceivingToolStripMenuItem.Text = "&Goods Receiving";
             this.goodsReceivingToolStripMenuItem.Visible = false;
             this.goodsReceivingToolStripMenuItem.Click += new System.EventHandler(this.goodsReceivingToolStripMenuItem_Click);
@@ -228,17 +302,6 @@
             this.pictureBox7.TabIndex = 71;
             this.pictureBox7.TabStop = false;
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackColor = System.Drawing.Color.White;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(-2, 398);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(1285, 121);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox4.TabIndex = 68;
-            this.pictureBox4.TabStop = false;
-            // 
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.White;
@@ -249,6 +312,17 @@
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBox3.TabIndex = 67;
             this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.White;
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(-2, 398);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(1285, 121);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox4.TabIndex = 68;
+            this.pictureBox4.TabStop = false;
             // 
             // pictureBox2
             // 
@@ -261,19 +335,31 @@
             this.pictureBox2.TabIndex = 66;
             this.pictureBox2.TabStop = false;
             // 
-            // pOSToolStripMenuItem
+            // accountCreationToolStripMenuItem
             // 
-            this.pOSToolStripMenuItem.Name = "pOSToolStripMenuItem";
-            this.pOSToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.pOSToolStripMenuItem.Text = "&POS";
-            this.pOSToolStripMenuItem.Click += new System.EventHandler(this.pOSToolStripMenuItem_Click);
+            this.accountCreationToolStripMenuItem.Name = "accountCreationToolStripMenuItem";
+            this.accountCreationToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.accountCreationToolStripMenuItem.Text = "&Account Creation";
+            this.accountCreationToolStripMenuItem.Click += new System.EventHandler(this.accountCreationToolStripMenuItem_Click);
             // 
-            // toolStripSeparator5
+            // toolStripSeparator9
             // 
-            this.toolStripSeparator5.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.toolStripSeparator5.ForeColor = System.Drawing.SystemColors.Control;
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(169, 6);
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(197, 6);
+            this.toolStripSeparator9.Visible = false;
+            // 
+            // dealsCreationToolStripMenuItem
+            // 
+            this.dealsCreationToolStripMenuItem.Name = "dealsCreationToolStripMenuItem";
+            this.dealsCreationToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.dealsCreationToolStripMenuItem.Text = "&Deals Creation";
+            this.dealsCreationToolStripMenuItem.Click += new System.EventHandler(this.dealsCreationToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(197, 6);
+            this.toolStripSeparator10.Visible = false;
             // 
             // mainfrm
             // 
@@ -303,8 +389,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -337,6 +423,16 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem pOSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem customersRegistrationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem salesManRegistrationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem accountCreationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem dealsCreationToolStripMenuItem;
     }
 }
 
