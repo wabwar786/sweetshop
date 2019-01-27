@@ -778,7 +778,7 @@ namespace FSM.Forms
         #region save button code
         private void savebtn_Click(object sender, EventArgs e)
         {
-
+            //salespoint
             if (customer_name_combobox.Text == "")
             {
                 MessageBox.Show(this,"Customer Name cannot be empty!","ERROR",MessageBoxButtons.OK,MessageBoxIcon.Information);

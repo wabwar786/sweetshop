@@ -31,6 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(salepoint));
             this.label1 = new System.Windows.Forms.Label();
             this.salesItems_gridview = new System.Windows.Forms.DataGridView();
+            this.Barcode_grid = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ProductName_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.amountGridView = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.billStatus_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete_gridview = new System.Windows.Forms.DataGridViewButtonColumn();
             this.searchItem_textBox = new System.Windows.Forms.TextBox();
             this.Items_listView = new System.Windows.Forms.ListView();
             this.Discription_list = new System.Windows.Forms.ColumnHeader();
@@ -72,13 +79,6 @@
             this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            this.Barcode_grid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ProductName_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amountGridView = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.billStatus_gridview = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete_gridview = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.salesItems_gridview)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -116,6 +116,57 @@
             this.salesItems_gridview.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.salesItems_gridview_CellEndEdit);
             this.salesItems_gridview.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.salesItems_gridview_CellClick);
             this.salesItems_gridview.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.salesItems_gridview_CellContentClick);
+            // 
+            // Barcode_grid
+            // 
+            this.Barcode_grid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Barcode_grid.DataPropertyName = "barcode";
+            this.Barcode_grid.HeaderText = "Barcode";
+            this.Barcode_grid.Name = "Barcode_grid";
+            // 
+            // ProductName_gridview
+            // 
+            this.ProductName_gridview.DataPropertyName = "product_name";
+            this.ProductName_gridview.HeaderText = "Product Name ";
+            this.ProductName_gridview.Name = "ProductName_gridview";
+            this.ProductName_gridview.Width = 300;
+            // 
+            // Quantity_gridview
+            // 
+            this.Quantity_gridview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Quantity_gridview.DataPropertyName = "quantity";
+            this.Quantity_gridview.HeaderText = "Quantity";
+            this.Quantity_gridview.Name = "Quantity_gridview";
+            // 
+            // Price_gridview
+            // 
+            this.Price_gridview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Price_gridview.DataPropertyName = "price";
+            this.Price_gridview.HeaderText = "Price";
+            this.Price_gridview.Name = "Price_gridview";
+            // 
+            // amountGridView
+            // 
+            this.amountGridView.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.amountGridView.HeaderText = "Amount";
+            this.amountGridView.Name = "amountGridView";
+            // 
+            // billStatus_gridview
+            // 
+            this.billStatus_gridview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.billStatus_gridview.DataPropertyName = "bill_status";
+            this.billStatus_gridview.HeaderText = "Bill Status";
+            this.billStatus_gridview.Name = "billStatus_gridview";
+            this.billStatus_gridview.Visible = false;
+            // 
+            // Delete_gridview
+            // 
+            this.Delete_gridview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Delete_gridview.HeaderText = "Delete";
+            this.Delete_gridview.Name = "Delete_gridview";
+            this.Delete_gridview.Text = "Delete";
+            this.Delete_gridview.UseColumnTextForButtonValue = true;
+            this.Delete_gridview.Width = 80;
             // 
             // searchItem_textBox
             // 
@@ -435,7 +486,7 @@
             this.reveiveableAmount_txt.BackColor = System.Drawing.SystemColors.InfoText;
             this.reveiveableAmount_txt.Font = new System.Drawing.Font("Calibri", 62.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.reveiveableAmount_txt.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.reveiveableAmount_txt.Location = new System.Drawing.Point(977, 19);
+            this.reveiveableAmount_txt.Location = new System.Drawing.Point(976, 22);
             this.reveiveableAmount_txt.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.reveiveableAmount_txt.Multiline = true;
             this.reveiveableAmount_txt.Name = "reveiveableAmount_txt";
@@ -529,63 +580,12 @@
             this.columnHeader3.Text = "Last Name";
             this.columnHeader3.Width = 106;
             // 
-            // Barcode_grid
-            // 
-            this.Barcode_grid.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Barcode_grid.DataPropertyName = "barcode";
-            this.Barcode_grid.HeaderText = "Barcode";
-            this.Barcode_grid.Name = "Barcode_grid";
-            // 
-            // ProductName_gridview
-            // 
-            this.ProductName_gridview.DataPropertyName = "product_name";
-            this.ProductName_gridview.HeaderText = "Product Name ";
-            this.ProductName_gridview.Name = "ProductName_gridview";
-            this.ProductName_gridview.Width = 300;
-            // 
-            // Quantity_gridview
-            // 
-            this.Quantity_gridview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Quantity_gridview.DataPropertyName = "quantity";
-            this.Quantity_gridview.HeaderText = "Quantity";
-            this.Quantity_gridview.Name = "Quantity_gridview";
-            // 
-            // Price_gridview
-            // 
-            this.Price_gridview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Price_gridview.DataPropertyName = "price";
-            this.Price_gridview.HeaderText = "Price";
-            this.Price_gridview.Name = "Price_gridview";
-            // 
-            // amountGridView
-            // 
-            this.amountGridView.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.amountGridView.HeaderText = "Amount";
-            this.amountGridView.Name = "amountGridView";
-            // 
-            // billStatus_gridview
-            // 
-            this.billStatus_gridview.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.billStatus_gridview.DataPropertyName = "bill_status";
-            this.billStatus_gridview.HeaderText = "Bill Status";
-            this.billStatus_gridview.Name = "billStatus_gridview";
-            this.billStatus_gridview.Visible = false;
-            // 
-            // Delete_gridview
-            // 
-            this.Delete_gridview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Delete_gridview.HeaderText = "Delete";
-            this.Delete_gridview.Name = "Delete_gridview";
-            this.Delete_gridview.Text = "Delete";
-            this.Delete_gridview.UseColumnTextForButtonValue = true;
-            this.Delete_gridview.Width = 80;
-            // 
             // salepoint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1280, 881);
+            this.ClientSize = new System.Drawing.Size(1280, 749);
             this.Controls.Add(this.salesman_listView);
             this.Controls.Add(this.salesMancheckBox);
             this.Controls.Add(this.savebtn);
