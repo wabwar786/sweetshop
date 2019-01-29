@@ -188,14 +188,20 @@ namespace FSM
 
         private void accountCreationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            account ac = new account();
-            ac.ShowDialog();
+            //account ac = new account();
+            //ac.ShowDialog();
         }
 
         private void dealsCreationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             deals_creation dc = new deals_creation();
             dc.ShowDialog();
+        }
+
+        private void quickSaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            quick_sale_creation qsc = new quick_sale_creation();
+            qsc.ShowDialog();
         }
     }
 }
