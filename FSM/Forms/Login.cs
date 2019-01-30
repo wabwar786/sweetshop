@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Net;
-using FSM.Forms;
 
 namespace FSM
 {
@@ -42,16 +41,16 @@ namespace FSM
                 catch (Exception ex)
                 {
 
-
+                    MessageBox.Show(ex.Message);
                 }
             }
         }
         private void btn_login(object sender, EventArgs e)
         {
-            connection_check1();
+            //connection_check1();
            try
            {
-               connection_check1();
+              // connection_check1();
                 string uPass = "";
                 string dPass = "";
                 try
@@ -158,15 +157,15 @@ namespace FSM
 
         private void loadingCurrentAccount()
         {
-            MySqlCommand innzX21122 = new MySqlCommand("select ID from fsm_account_no where branch='" + Login.branch + "'", conn);
-            innzX21122.ExecuteNonQuery();
-            MySqlDataReader rrr1122 = innzX21122.ExecuteReader();
-            while (rrr1122.Read())
-            {
-               account.account_no = rrr1122["ID"].ToString();
-            }
-            rrr1122.Dispose();
-            innzX21122.Dispose();
+            //MySqlCommand innzX21122 = new MySqlCommand("select ID from fsm_account_no where branch='" + Login.branch + "'", conn);
+            //innzX21122.ExecuteNonQuery();
+            //MySqlDataReader rrr1122 = innzX21122.ExecuteReader();
+            //while (rrr1122.Read())
+            //{
+            //    account.account_no = rrr1122["ID"].ToString(); /*add acc  */ 
+            //}
+            //rrr1122.Dispose();
+            //innzX21122.Dispose();
         }
 
         private void texpwd_KeyDown(object sender, KeyEventArgs e)

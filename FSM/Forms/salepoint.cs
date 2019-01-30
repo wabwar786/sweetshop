@@ -17,7 +17,11 @@ namespace FSM.Forms
         MySqlConnection conn = null;
         string system_name = System.Environment.MachineName;
         string salesMan_ID = "";
+        public static string account_no = "1";
+        string[] hold_itemNames;
+        string[] hold_itemCodes;
 
+        #region constructor
         public salepoint()
         {
             InitializeComponent();
@@ -25,6 +29,7 @@ namespace FSM.Forms
             conn = new MySqlConnection(connectorstr);
             connection_check();
         }
+        #endregion
 
         #region Check Conenction Method
         private void connection_check()
@@ -50,6 +55,9 @@ namespace FSM.Forms
             branchNamelabel.Text = Login.branch;
             customer_names();
             laodingSalesManInfo();
+            loadingQuickSaleItems();
+
+            curr_date.Text = DateTime.Now.ToString("yyyy-MM-dd");
         }
         #endregion
 
@@ -342,7 +350,7 @@ namespace FSM.Forms
 
                         //if item already exist then
                         string existItemQuantity = "";
-                        MySqlCommand sel123 = new MySqlCommand("select quantity from fsm_pos_itemsales_temp where product_name='" + itemName[j] + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account.account_no + "'", conn);
+/*add acc  */                  MySqlCommand sel123 = new MySqlCommand("select quantity from fsm_pos_itemsales_temp where product_name='" + itemName[j] + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"'    ", conn);
                         sel123.ExecuteNonQuery();
                         MySqlDataReader drr132 = sel123.ExecuteReader();
                         while (drr132.Read())
@@ -354,14 +362,14 @@ namespace FSM.Forms
 
                         if (existItemQuantity == "")
                         {
-                            MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales_temp`( invoice_no,`barcode`, `product_name`, `quantity`, `price`, `bill_status`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,branch,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barcode + "','" + productName + "','" + quantity[j] + "','" + price + "','" + billStatus + "','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','" + account.account_no + "')", conn);
+                            MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales_temp`( invoice_no,`barcode`, `product_name`, `quantity`, `price`, `bill_status`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,branch,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barcode + "','" + productName + "','" + quantity[j] + "','" + price + "','" + billStatus + "','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','"+account_no+"')", conn);
                             itd.ExecuteNonQuery();
                             itd.Dispose();
                         }
                         else
                         {
                             existItemQuantity = ((Convert.ToDouble(existItemQuantity)) + Convert.ToDouble(quantity[j])).ToString();
-                            MySqlCommand itd123 = new MySqlCommand("UPDATE fsm_pos_itemsales_temp set quantity='" + existItemQuantity + "' where(product_name='" + itemName[j] + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account.account_no + "')", conn);
+/*add acc  */                             MySqlCommand itd123 = new MySqlCommand("UPDATE fsm_pos_itemsales_temp set quantity='" + existItemQuantity + "' where(product_name='" + itemName[j] + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"')", conn);
                             itd123.ExecuteNonQuery();
                             itd123.Dispose();
                         }
@@ -369,7 +377,7 @@ namespace FSM.Forms
 
                         //binding data to gridview
                         MySqlDataAdapter sda = new MySqlDataAdapter();
-                        string query = "SELECT `barcode`, `product_name`, `quantity`, `price`, `bill_status` FROM `fsm_pos_itemsales_temp` WHERE invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account.account_no + "'";
+/*add acc  */                         string query = "SELECT `barcode`, `product_name`, `quantity`, `price`, `bill_status` FROM `fsm_pos_itemsales_temp` WHERE invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"'";
                         MySqlCommand command = new MySqlCommand(query, conn);
                         sda.SelectCommand = command;
                         DataTable table = new DataTable();
@@ -415,7 +423,7 @@ namespace FSM.Forms
                     }
                     drr.Dispose();
                     sel.Dispose();
-
+                    if (qty == "") { qty = "0"; }
                     if (Convert.ToDouble(qty) < 0)
                     {
                         MessageBox.Show(this, "Item Quantity is not avaliable Kindly Purchase some Qty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -424,7 +432,7 @@ namespace FSM.Forms
 
                     //if item already exist then
                     string existItemQuantity = "";
-                    MySqlCommand sel123 = new MySqlCommand("select quantity from fsm_pos_itemsales_temp where barcode='" + searchItem_textBox.Text + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account.account_no + "'", conn);
+ /*add acc  */                    MySqlCommand sel123 = new MySqlCommand("select quantity from fsm_pos_itemsales_temp where barcode='" + searchItem_textBox.Text + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"'", conn);
                     sel123.ExecuteNonQuery();
                     MySqlDataReader drr132 = sel123.ExecuteReader();
                     while (drr132.Read())
@@ -436,14 +444,14 @@ namespace FSM.Forms
 
                     if (existItemQuantity == "")
                     {
-                        MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales_temp`( invoice_no,`barcode`, `product_name`, `quantity`, `price`, `bill_status`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,branch,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barcode + "','" + productName + "','1','" + price + "','" + billStatus + "','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','" + account.account_no + "')", conn);
+     /*add acc  */                    MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales_temp`( invoice_no,`barcode`, `product_name`, `quantity`, `price`, `bill_status`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,branch,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barcode + "','" + productName + "','1','" + price + "','" + billStatus + "','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','')", conn);
                         itd.ExecuteNonQuery();
                         itd.Dispose();
                     }
                     else
                     {
                         existItemQuantity = ((Convert.ToDouble(existItemQuantity)) + 1).ToString();
-                        MySqlCommand itd123 = new MySqlCommand("UPDATE fsm_pos_itemsales_temp set quantity='" + existItemQuantity + "' where(barcode='" + searchItem_textBox.Text + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account.account_no + "')", conn);
+ /*add acc  */                        MySqlCommand itd123 = new MySqlCommand("UPDATE fsm_pos_itemsales_temp set quantity='" + existItemQuantity + "' where(barcode='" + searchItem_textBox.Text + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"')", conn);
                         itd123.ExecuteNonQuery();
                         itd123.Dispose();
                     }
@@ -451,7 +459,7 @@ namespace FSM.Forms
 
                     //binding data to gridview
                     MySqlDataAdapter sda = new MySqlDataAdapter();
-                    string query = "SELECT `barcode`, `product_name`, `quantity`, `price`, `bill_status` FROM `fsm_pos_itemsales_temp` WHERE invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account.account_no + "'";
+    /*add acc  */                 string query = "SELECT `barcode`, `product_name`, `quantity`, `price`, `bill_status` FROM `fsm_pos_itemsales_temp` WHERE invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"'";
                     MySqlCommand command = new MySqlCommand(query, conn);
                     sda.SelectCommand = command;
                     DataTable table = new DataTable();
@@ -558,7 +566,7 @@ namespace FSM.Forms
             {
                 return;
             }
-            if (salesItems_gridview.CurrentCell.ColumnIndex == 0)
+            if (salesItems_gridview.CurrentCell.ColumnIndex == 1)
             {
 
                 DialogResult dialog = MessageBox.Show("Do you really wants Delete item !", "Information", MessageBoxButtons.YesNo,MessageBoxIcon.Information);
@@ -778,7 +786,7 @@ namespace FSM.Forms
         #region save button code
         private void savebtn_Click(object sender, EventArgs e)
         {
-            //salespoint
+
             if (customer_name_combobox.Text == "")
             {
                 MessageBox.Show(this,"Customer Name cannot be empty!","ERROR",MessageBoxButtons.OK,MessageBoxIcon.Information);
@@ -804,13 +812,13 @@ namespace FSM.Forms
                 price = salesItems_gridview.Rows[i].Cells["Price_gridview"].Value.ToString();
 
 
-                MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales`(`invoice_no`, `barcode`, `product_name`, `quantity`, `price`, `total_balance`, `received_amount`, `discount_amount`, `total_receivable_amount`, `bill_status`, `branch`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barcode + "','" + product_name + "','" + quantity + "','" + price + "','" + balance_txt.Text + "','" + receive_txt.Text + "','" + discount_txt.Text + "','" + reveiveableAmount_txt.Text + "','Finished','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','"+account.account_no+"')", conn);
+   /*add acc  */              MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales`(`invoice_no`, `barcode`, `product_name`, `quantity`, `price`, `total_balance`, `received_amount`, `discount_amount`, `total_receivable_amount`, `bill_status`, `branch`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barcode + "','" + product_name + "','" + quantity + "','" + price + "','" + balance_txt.Text + "','" + receive_txt.Text + "','" + discount_txt.Text + "','" + reveiveableAmount_txt.Text + "','Finished','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','"+account_no+"')", conn);
                 itd.ExecuteNonQuery();
                 itd.Dispose();
             }
 
             //deleting data from temp table;
-            MySqlCommand itd12 = new MySqlCommand("delete from fsm_pos_itemsales_temp where(invoice_no='"+invoice_notextBox.Text+"' and branch='"+Login.branch+"' and account_no='"+account.account_no+"')", conn);
+ /*add acc  */            MySqlCommand itd12 = new MySqlCommand("delete from fsm_pos_itemsales_temp where(invoice_no='"+invoice_notextBox.Text+"' and branch='"+Login.branch+"' and account_no='"+account_no+"')", conn);
             itd12.ExecuteNonQuery(); 
             itd12.Dispose();
 
@@ -827,12 +835,12 @@ namespace FSM.Forms
                 }
                 drr.Dispose();
 
-            MySqlCommand itd999 = new MySqlCommand("INSERT INTO `fsm_customer_sales`( `customer_id`, `invoice_no`,account_no) VALUES ('" + customerID + "','" + invoice_notextBox.Text + "','"+account.account_no+"')", conn);
+/*add acc  */             MySqlCommand itd999 = new MySqlCommand("INSERT INTO `fsm_customer_sales`( `customer_id`, `invoice_no`,account_no) VALUES ('" + customerID + "','" + invoice_notextBox.Text + "','"+account_no+"')", conn);
             itd999.ExecuteNonQuery();
             itd999.Dispose();
 
             //inserting data to sales man sales table
-            MySqlCommand itd99 = new MySqlCommand("INSERT INTO `fsm_salesman_sales`( `sales_man_id`, `invoice_no`,account_no) VALUES ('" + salesMan_ID + "','" + invoice_notextBox.Text + "','" + account.account_no + "')", conn);
+/*add acc  */             MySqlCommand itd99 = new MySqlCommand("INSERT INTO `fsm_salesman_sales`( `sales_man_id`, `invoice_no`,account_no) VALUES ('" + salesMan_ID + "','" + invoice_notextBox.Text + "','"+account_no+"')", conn);
             itd99.ExecuteNonQuery();
             itd99.Dispose();
 
@@ -891,6 +899,305 @@ namespace FSM.Forms
             change_txt.Text = ((Convert.ToDouble(change_txt.Text)) + (Convert.ToDouble(discount_txt.Text))).ToString();
         }
 
+        private void receive_txt_TextChanged(object sender, EventArgs e)
+        {
+            change_txt.Text = ((Convert.ToDouble(receive_txt.Text)) - (Convert.ToDouble(balance_txt.Text))).ToString();
+            //temp
+            reveiveableAmount_txt.Text = ((Convert.ToDouble(balance_txt.Text)) - (Convert.ToDouble(discount_txt.Text))).ToString();
+            change_txt.Text = ((Convert.ToDouble(change_txt.Text)) + (Convert.ToDouble(discount_txt.Text))).ToString();
+        }
+
+        #endregion
+
+        #region top time date and close form events
+        private void button12_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            this.curr_time.Text = dt.ToString("hh:mm:ss tt");
+        }
+        #endregion
+
+        #region loading Quick Sale items
+        private void loadingQuickSaleItems()
+        {
+
+            try
+            {
+                 hold_itemNames = new string[100];
+                 hold_itemCodes= new string[100];
+
+                int i = 0;
+
+                MySqlCommand innzX21122 = new MySqlCommand("select barcode,item_name from fsm_quick_sale where branch='"+Login.branch+"' ", conn);
+                innzX21122.ExecuteNonQuery();
+                MySqlDataReader rrr1122 = innzX21122.ExecuteReader();
+                while (rrr1122.Read())
+                {
+                    hold_itemNames[i] = rrr1122["item_name"].ToString();
+                    hold_itemCodes[i] = rrr1122["barcode"].ToString();
+                    i++;
+                }
+                innzX21122.Dispose();
+                rrr1122.Dispose();
+
+                //setting values to buttons
+
+                button20_1.Text = hold_itemNames[0];
+                button19_2.Text = hold_itemNames[1];
+                button22_3.Text = hold_itemNames[2];
+                button18_4.Text = hold_itemNames[3];
+                button21_5.Text = hold_itemNames[4];
+                button16_6.Text = hold_itemNames[5];
+                button17_7.Text = hold_itemNames[6];
+                button15_8.Text = hold_itemNames[7];
+                button13_9.Text = hold_itemNames[8];
+                button14_10.Text = hold_itemNames[9];
+
+            }
+            catch (Exception es)
+            {
+
+
+            }
+
+
+        }
+
+        #endregion
+
+        #region quick Sale
+        private void button20_1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button20_1.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void addingQuickSaleItems(string barCode,string itemName,string q)
+        {
+            string barcode = "";
+            string productName = "";
+            string qty = "";
+            string price = "";
+            string billStatus = "";
+
+            MySqlCommand sel = new MySqlCommand("select item,qty,retail_price,barcode from fsm_mainstore where barcode='" + barCode + "' and item='" + itemName + "' ", conn);
+            sel.ExecuteNonQuery();
+            MySqlDataReader drr = sel.ExecuteReader();
+            while (drr.Read())
+            {
+                barcode = drr["barcode"].ToString();
+                productName = drr["item"].ToString();
+                qty = drr["qty"].ToString();
+                price = drr["retail_price"].ToString();
+                billStatus = "Progress";
+            }
+            drr.Dispose();
+            sel.Dispose();
+
+            if (Convert.ToDouble(qty) < 0)
+            {
+                MessageBox.Show(this, "Item Quantity is not avaliable Kindly Purchase some Qty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //if item already exist then
+            string existItemQuantity = "";
+            /*add acc  */
+            MySqlCommand sel123 = new MySqlCommand("select quantity from fsm_pos_itemsales_temp where barcode='" + barCode + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='" + account_no + "'", conn);
+            sel123.ExecuteNonQuery();
+            MySqlDataReader drr132 = sel123.ExecuteReader();
+            while (drr132.Read())
+            {
+                existItemQuantity = drr132["quantity"].ToString();
+            }
+            drr132.Dispose();
+            sel123.Dispose();
+
+            if (existItemQuantity == "")
+            {
+                /*add acc  */
+                MySqlCommand itd = new MySqlCommand("INSERT INTO `fsm_pos_itemsales_temp`( invoice_no,`barcode`, `product_name`, `quantity`, `price`, `bill_status`, `sys_name`, `sys_ip`, `curr_date`, `curr_time`,branch,account_no) VALUES ('" + invoice_notextBox.Text + "','" + barCode + "','" + itemName + "','"+q+"','" + price + "','" + billStatus + "','" + system_name + "','" + GetIPAddress() + "','" + addingDateTimeStamp() + "','" + addingTimeNow() + "','" + Login.branch + "','"+account_no+"')", conn);
+                itd.ExecuteNonQuery();
+                itd.Dispose();
+            }
+            else
+            {
+                existItemQuantity = ((Convert.ToDouble(existItemQuantity)) + Convert.ToDouble(q)).ToString();
+                /*add acc  */
+                MySqlCommand itd123 = new MySqlCommand("UPDATE fsm_pos_itemsales_temp set quantity='" + existItemQuantity + "' where(barcode='" + barCode + "' and invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"')", conn);
+                itd123.ExecuteNonQuery();
+                itd123.Dispose();
+            }
+
+
+            //binding data to gridview
+            MySqlDataAdapter sda = new MySqlDataAdapter();
+            /*add acc  */
+            string query = "SELECT `barcode`, `product_name`, `quantity`, `price`, `bill_status` FROM `fsm_pos_itemsales_temp` WHERE invoice_no='" + invoice_notextBox.Text + "' and branch='" + Login.branch + "' and account_no='"+account_no+"'";
+            MySqlCommand command = new MySqlCommand(query, conn);
+            sda.SelectCommand = command;
+            DataTable table = new DataTable();
+            sda.Fill(table);
+            BindingSource bsource = new BindingSource();
+            bsource.DataSource = table;
+            salesItems_gridview.DataSource = bsource;
+
+            //deducting quantity from Main-store
+
+            qty = (Convert.ToDouble(qty) - Convert.ToDouble(q)).ToString();
+
+            //updating new quantity
+            MySqlCommand itd12 = new MySqlCommand("UPDATE fsm_mainstore set qty='" + qty + "' where (item = '" + itemName + "' and barcode='" + barCode + "' and branch_n='" + Login.branch + "' )", conn);
+            itd12.ExecuteNonQuery();
+            itd12.Dispose();
+
+            //calculations
+            bill_calculations();
+        }
+
+        private void button19_2_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button19_2.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName,quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button22_3_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button22_3.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button18_4_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button18_4.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button21_5_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button21_5.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button16_6_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button16_6.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button17_7_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button17_7.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button15_8_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button15_8.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button13_9_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button13_9.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
+
+        private void button14_10_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < hold_itemNames.Length; i++)
+            {
+                if (hold_itemNames[i] == button14_10.Text)
+                {
+                    string barcode = hold_itemCodes[i];
+                    string itemName = hold_itemNames[i];
+                    addingQuickSaleItems(barcode, itemName, quantity_txt.Text);
+                    break;
+                }
+            }
+        }
         #endregion
     }
         

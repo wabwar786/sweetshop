@@ -69,6 +69,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.branchescombobox = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -578,7 +579,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(825, 59);
             this.label4.TabIndex = 121;
-            this.label4.Text = "SALES MAN CREATION";
+            this.label4.Text = "EMPLOYEE REGISTRATION";
             // 
             // listView1
             // 
@@ -835,11 +836,23 @@
             this.label15.Text = "Branch Name :";
             this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // label16
+            // 
+            this.label16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.label16.Location = new System.Drawing.Point(300, 315);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(279, 157);
+            this.label16.TabIndex = 141;
+            this.label16.Text = "is form pa country khtm krn sector chaiye only.. city ki jaga employee type chaiy" +
+                "e, branch name ka drop down khtm krn r branch auto ani chaiye main form pa stati" +
+                "c branch add kr k wahan se.";
+            // 
             // sales_man_reg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 549);
+            this.Controls.Add(this.label16);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.branchescombobox);
             this.Controls.Add(this.label14);
@@ -928,5 +941,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox branchescombobox;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
     }
 }
