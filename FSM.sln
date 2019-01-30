@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSM", "FSM\FSM.csproj", "{7F3C2ED0-EA58-477E-B913-423E0EBFF455}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "FSM_new", "FSM_new\FSM_new.vdproj", "{E1BEC80A-D47E-41DC-9CDF-D0531332F8F9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +13,6 @@ Global
 		{7F3C2ED0-EA58-477E-B913-423E0EBFF455}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F3C2ED0-EA58-477E-B913-423E0EBFF455}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F3C2ED0-EA58-477E-B913-423E0EBFF455}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1BEC80A-D47E-41DC-9CDF-D0531332F8F9}.Debug|Any CPU.ActiveCfg = Debug
-		{E1BEC80A-D47E-41DC-9CDF-D0531332F8F9}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
